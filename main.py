@@ -1,15 +1,22 @@
-from typing import Union
-
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  
+from routes.r_users import user
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def cors_headers(app):
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=True,
+        )
+    return app
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q:Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-    
-    
+app.include_router(user)
+@app.get("/")
+async def root():
+    return {
+        "Message": "Codename - Neural"
+    }
