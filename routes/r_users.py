@@ -6,33 +6,17 @@ from config.database import conn
 user = APIRouter()
 
 #get all users
-@user.get("/user/all", response_model=Users, description="Show All User Data")
-async def find_all_user(limit: int = 10, offset: int = 0):
+@user.get("/sql/user/", response_model=Users, description="Show All User Data", tags=["SQL Database"])
+async def list_users(limit: int = 10, offset: int = 0):
     query = User.select().offset(offset).limit(limit)
     data = conn.execute(query).fetchall()
     response = {"limit": limit, "offset": offset, "data": data}
     return response
 
-#get user by id
-@user.get("/user/{id}", description="Show Details Data")
-async def find_user(id: int, response: Response):
-    query = User.select().where(User.c.id_users == id)
-    data = conn.execute(query).fetchone()
-    if data is None:
-        response.status_code = status.HTTP_404_NOT_FOUND
-        return {
-            "message" : "Data Not Found", "Status" : response.status_code
-        }
-    
-    response = {
-        "message" : f"Success show data with id {id}", "data": data
-    }
-    return response
-
 #Add new User
 
-@user.post("/user/", description="Add User")
-async def insert_user(usr: UserSchema, response: Response):
+@user.post("/sql/user/", description="Add User", tags=["SQL Database"])
+async def create_user(usr: UserSchema, response: Response):
     
     email_check = User.select().filter(User.c.email == usr.email)
     email_check = conn.execute(email_check).fetchone()
@@ -60,9 +44,26 @@ async def insert_user(usr: UserSchema, response: Response):
     }
     return response
 
+#get user by id
+@user.get("/sql/user/{id}", description="Show Details Data", tags=["SQL Database"])
+async def show_user_with_id(id: int, response: Response):
+    query = User.select().where(User.c.id_users == id)
+    data = conn.execute(query).fetchone()
+    if data is None:
+        response.status_code = status.HTTP_404_NOT_FOUND
+        return {
+            "message" : "Data Not Found", "Status" : response.status_code
+        }
+    
+    response = {
+        "message" : f"Success show data with id {id}", "data": data
+    }
+    return response
+
+
 #Edit User data
 
-@user.post("/user/{id}", description="Edit User Data")
+@user.put("/sql/user/{id}", description="Edit User Data", tags=["SQL Database"])
 async def update_user(id: int, usr : UserSchema, response: Response):
     
     email_check = User.select().filter(User.c.email == usr.email, User.c.id_users != id)
@@ -94,7 +95,7 @@ async def update_user(id: int, usr : UserSchema, response: Response):
 
 
 #Delete User
-@user.delete("/user/{id}", description="Delete Data User")
+@user.delete("/sql/user/{id}", description="Delete Data User", tags=["SQL Database"])
 async def delete_user(id: int, response: Response):
     query = User.select().where(User.c.id_users == id)
     data = conn.execute(query).fetchone()
