@@ -14,7 +14,6 @@ async def list_users(limit: int = 10, offset: int = 0):
     return response
 
 #Add new User
-
 @user.post("/sql/user/", description="Add User", tags=["SQL Database"])
 async def create_user(usr: UserSchema, response: Response):
     
