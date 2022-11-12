@@ -77,7 +77,7 @@ async def update_user(id: int, usr : UserSchema, response: Response):
             "message": "Email Already Exists"
         }
         
-    query = User.Update().values(
+    query = User.update().values(
         name = usr.name,
         address = usr.address,
         date_of_birth = usr.date_of_birth,
@@ -86,6 +86,7 @@ async def update_user(id: int, usr : UserSchema, response: Response):
     ).where(User.c.id_users == id)
     
     conn.execute(query)
+    print(query)
     data = User.select().where(User.c.id_users == id)
     response = {
         "message" : f"Success change user data with id {id}", "data": conn.execute(data).fetchone()
