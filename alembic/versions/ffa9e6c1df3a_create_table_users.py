@@ -22,7 +22,7 @@ depends_on = None
 def upgrade():
     users = op.create_table(
         'dt_users',
-        sa.Column('id_users', sa.Integer, primary_key=True),
+        sa.Column('id_users', sa.String(255), primary_key=True),
         sa.Column('name', sa.String(255), nullable=False),
         sa.Column('address', sa.String(255)),
         sa.Column('date_of_birth', sa.Date()),
@@ -31,15 +31,15 @@ def upgrade():
         
     )
     
-    op.bulk_insert(
-        users,
-        [{'name':faker.name(),
-                'address':faker.address(),
-                'date_of_birth':faker.date_of_birth(tzinfo=None, minimum_age=15, maximum_age=30),
-                'telp':faker.phone_number(),
-                'email':faker.email()
-        } for x in range(800)]
-    )
+    # op.bulk_insert(
+    #     users,
+    #     [{'name':faker.name(),
+    #             'address':faker.address(),
+    #             'date_of_birth':faker.date_of_birth(tzinfo=None, minimum_age=15, maximum_age=30),
+    #             'telp':faker.phone_number(),
+    #             'email':faker.email()
+    #     } for x in range(800)]
+    # )
 
 
 def downgrade():
