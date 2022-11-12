@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI, Body, HTTPException, status, APIRouter
 from fastapi.responses import Response, JSONResponse
 from fastapi.encoders import jsonable_encoder
-from schemas.s_nosql_users import UserModel, UpdateUserModel
+from schemas.s_nosql_users import UserSchema, UpdateUserSchema
 from typing import Optional, List
 import motor.motor_asyncio
 
@@ -12,8 +12,8 @@ user_nosql = APIRouter()
 client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])
 db = client.users
 
-@user_nosql.post("/nosql/user/", response_description="Add new user", response_model=UserModel, tags=["NoSQL Database"])
-async def create_user(user: UserModel = Body(...)):
+@user_nosql.post("/nosql/user/", response_description="Add new user", response_model=UserSchema, tags=["NoSQL Database"])
+async def create_user(user: UserSchema = Body(...)):
     user = jsonable_encoder(user)
     new_user = await db["users"].insert_one(user)
     created_user = await db["users"].find_one({"_id": new_user.inserted_id})
@@ -21,7 +21,7 @@ async def create_user(user: UserModel = Body(...)):
 
 
 @user_nosql.get(
-    "/nosql/user/", response_description="List all users", response_model=List[UserModel], tags=["NoSQL Database"]
+    "/nosql/user/", response_description="List all users", response_model=List[UserSchema], tags=["NoSQL Database"]
 )
 async def list_users():
     users = await db["users"].find().to_list(1000)
@@ -29,7 +29,7 @@ async def list_users():
 
 
 @user_nosql.get(
-    "/nosql/user/{id}", response_description="Get a single user", response_model=UserModel, tags=["NoSQL Database"]
+    "/nosql/user/{id}", response_description="Get a single user", response_model=UserSchema, tags=["NoSQL Database"]
 )
 async def show_user_with_id(id: str):
     if (user := await db["users"].find_one({"_id": id})) is not None:
@@ -38,8 +38,8 @@ async def show_user_with_id(id: str):
     raise HTTPException(status_code=404, detail=f"User {id} not found")
 
 
-@user_nosql.put("/nosql/user/{id}", response_description="Update a user", response_model=UserModel, tags=["NoSQL Database"])
-async def update_user(id: str, user: UpdateUserModel = Body(...)):
+@user_nosql.put("/nosql/user/{id}", response_description="Update a user", response_model=UserSchema, tags=["NoSQL Database"])
+async def update_user(id: str, user: UpdateUserSchema = Body(...)):
     user = {k: v for k, v in user.dict().items() if v is not None}
 
     if len(user) >= 1:

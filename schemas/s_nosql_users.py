@@ -19,7 +19,7 @@ class PyObjectId(ObjectId):
         field_schema.update(type="string")
 
 
-class UserModel(BaseModel):
+class UserSchema(BaseModel):
     id_users: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str = Field(..., min_lenght=3, max_length=255)
     address: str = Field(..., min_lenght=3, max_length=255)
@@ -42,7 +42,7 @@ class UserModel(BaseModel):
         }
 
 
-class UpdateUserModel(BaseModel):
+class UpdateUserSchema(BaseModel):
     name: Optional[str]
     address: Optional[str]
     telp: Optional[str]
