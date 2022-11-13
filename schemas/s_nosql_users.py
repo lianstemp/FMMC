@@ -20,7 +20,7 @@ class PyObjectId(ObjectId):
 
 
 class UserSchema(BaseModel):
-    id_users: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
+    _id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str = Field(..., min_lenght=3, max_length=255)
     address: str = Field(..., min_lenght=3, max_length=255)
     date_of_birth: date = Field(...)

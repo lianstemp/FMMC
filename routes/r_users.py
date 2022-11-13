@@ -37,7 +37,7 @@ async def create_user(usr: UserSchema, response: Response):
     )
     
     conn.execute(query)
-    data = User.select().order_by(User.c.id_users.desc())
+    data = User.select().order_by(User.c._id.desc())
     response = {
         "message" : f"Success add new user data", "data": conn.execute(data).fetchone()
     }
@@ -46,7 +46,7 @@ async def create_user(usr: UserSchema, response: Response):
 #get user by id
 @user.get("/sql/user/{id}", description="Show Details Data", tags=["SQL Database"])
 async def show_user_with_id(id: int, response: Response):
-    query = User.select().where(User.c.id_users == id)
+    query = User.select().where(User.c._id == id)
     data = conn.execute(query).fetchone()
     if data is None:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -65,7 +65,7 @@ async def show_user_with_id(id: int, response: Response):
 @user.put("/sql/user/{id}", description="Edit User Data", tags=["SQL Database"])
 async def update_user(id: int, usr : UserSchema, response: Response):
     
-    email_check = User.select().filter(User.c.email == usr.email, User.c.id_users != id)
+    email_check = User.select().filter(User.c.email == usr.email, User.c._id != id)
     email_check = conn.execute(email_check).fetchone()
     
     if email_check is not None:
@@ -82,11 +82,11 @@ async def update_user(id: int, usr : UserSchema, response: Response):
         date_of_birth = usr.date_of_birth,
         telp = usr.telp,
         email = usr.email
-    ).where(User.c.id_users == id)
+    ).where(User.c._id == id)
     
     conn.execute(query)
     print(query)
-    data = User.select().where(User.c.id_users == id)
+    data = User.select().where(User.c._id == id)
     response = {
         "message" : f"Success change user data with id {id}", "data": conn.execute(data).fetchone()
     }
@@ -97,7 +97,7 @@ async def update_user(id: int, usr : UserSchema, response: Response):
 #Delete User
 @user.delete("/sql/user/{id}", description="Delete Data User", tags=["SQL Database"])
 async def delete_user(id: int, response: Response):
-    query = User.select().where(User.c.id_users == id)
+    query = User.select().where(User.c._id == id)
     data = conn.execute(query).fetchone()
     if data is None:
         response.status_code = status.HTTP_404_NOT_FOUND
@@ -105,7 +105,7 @@ async def delete_user(id: int, response: Response):
             "message": "Data Not Found", "Status": response.status_code
         }
     
-    query = User.delete().where(User.c.id_users == id)
+    query = User.delete().where(User.c._id == id)
     conn.execute(query)
     response = {
         "message" : f"Success delete user with id {id}"
