@@ -6,7 +6,9 @@ from fastapi.encoders import jsonable_encoder
 from schemas.s_nosql_users import UserSchema, UpdateUserSchema
 from typing import Optional, List
 import motor.motor_asyncio
+from dotenv import load_dotenv
 
+load_dotenv()
 
 user_nosql = APIRouter()
 client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])

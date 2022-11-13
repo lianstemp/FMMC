@@ -36,3 +36,4 @@ typed-ast==1.4.1
 
 pandas==1.5.1
 openpyxl==3.0.10
+python-dotenv==0.21.0

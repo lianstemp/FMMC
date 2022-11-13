@@ -1,28 +1,15 @@
 #config/database.py
 import os
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import configparser
+from dotenv import load_dotenv
 
-config = configparser.ConfigParser()
-config.read('alembic.ini')
+load_dotenv()
 
-SQLALCHEMY_DATABASE_URL = config.get('alembic', 'sqlalchemy.url')
+SQLALCHEMY_DATABASE_URL = os.environ.get('DB_ENGINE') + '://' + os.environ.get('DB_USER') +':'+ os.environ.get('DB_PASS') + '@' + os.environ.get('DB_HOST') + ':' + os.environ.get('DB_PORT') + '/' + os.environ.get('DB_NAME')
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base = declarative_base()
-
 conn = engine.connect()
-
-config = configparser.ConfigParser()
-config.read('alembic.ini')
-
-SQLALCHEMY_DATABASE_URL = config.get('alembic', 'sqlalchemy.url')
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 conn.engine.connect()
