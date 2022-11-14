@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware  
-from routes.r_users import user
-from routes.r_nosql_users import user_nosql
+from routes.r_data import data
 from routes.r_export import export
+
+#we will focus on sql first
+#from routes.r_nosql_users import user_nosql
 
 app = FastAPI()
 
@@ -22,7 +24,7 @@ async def root():
         "Message": "Codename - Neural",
         "Author" : "Farhan Aulianda"
     }
-app.include_router(user)
-app.include_router(user_nosql)
+app.include_router(data)
+#app.include_router(user_nosql)
 app.include_router(export)
 

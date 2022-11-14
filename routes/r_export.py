@@ -1,6 +1,6 @@
 from fastapi.responses import StreamingResponse
 from fastapi import APIRouter
-from models.m_users import User
+from models.m_data import Data
 import pandas as pd
 from config.database import conn
 from io import BytesIO
@@ -10,7 +10,7 @@ export = APIRouter()
 
 @export.get("/download/csv",tags=["Download"])
 def download_csv_data(limit: int = 10, offset: int = 0):
-    query = User.select().offset(offset).limit(limit)
+    query = Data.select().offset(offset).limit(limit)
     df = pd.DataFrame(conn.execute(query))
     
     return StreamingResponse(
@@ -21,7 +21,7 @@ def download_csv_data(limit: int = 10, offset: int = 0):
 
 @export.get("/download/xlsx",tags=["Download"])
 def download_excel_data(limit: int = 10, offset: int = 0):
-    query = User.select().offset(offset).limit(limit)
+    query = Data.select().offset(offset).limit(limit)
     df = pd.DataFrame(conn.execute(query))
     buffer = BytesIO()
     with pd.ExcelWriter(buffer) as writer:
