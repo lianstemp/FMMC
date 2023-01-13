@@ -15,6 +15,13 @@ Clone the project
   git clone git@github.com:MRXAZK/FastAPI-MongoDB-CRUD.git
 ```
 
+or
+
+Fork the project on GitHub
+Click on the "Fork" button in the top right corner of the page.
+Select the account where you want to fork the repository.
+Clone the forked repository
+
 ### Environment Variabel
 
 #### SQL
