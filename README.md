@@ -1,7 +1,7 @@
-<h1 align="center" style="margin-top: 0px;"> FastAPI MongoDB CRUD </h1>
+<h1 align="center" style="margin-top: 0px;"> FastAPI Mysql MongoDB CRUD (FMMC)</h1>
 <p align="center">
   <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=fastapi,mongodb" />
+    <img src="https://skillicons.dev/icons?i=fastapi,mysql,mongodb" />
   </a>
 </p>
 

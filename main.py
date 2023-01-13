@@ -19,7 +19,7 @@ def cors_headers(app):
 @app.get("/", tags=["Root"])
 async def root():
     return {
-        "Message": "FastAPI - MongoDB - CRUD",
+        "Message": "FastAPI - Mysql - MongoDB - CRUD",
         "Author" : "Farhan Aulianda"
     }
 app.include_router(user)
