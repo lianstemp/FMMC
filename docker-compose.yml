@@ -1,0 +1,39 @@
+version: "3"
+services:
+  mongodb:
+    image: mongo
+    env_file:
+      - ./.env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+
+  mysql:
+    image: mysql:5.7
+    env_file:
+      - ./.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASS}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASS}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+      - mysql
+
+volumes:
+  mongodb:
+  mysql:
