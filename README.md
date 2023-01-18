@@ -1,3 +1,4 @@
+<img align="right" src="https://visitor-badge.laobi.icu/badge?page_id=MRXAZK.FMMC">
 <h1 align="center" style="margin-top: 0px;"> FastAPI Mysql MongoDB CRUD (FMMC)</h1>
 <p align="center">
   <a href="https://skillicons.dev">
