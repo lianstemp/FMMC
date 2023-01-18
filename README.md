@@ -13,7 +13,7 @@
 Clone the project
 
 ```bash
-  git clone git@github.com:MRXAZK/FastAPI-MongoDB-CRUD.git
+  https://github.com/MRXAZK/FMMC.git
 ```
 
 or
