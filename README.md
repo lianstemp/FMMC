@@ -12,8 +12,10 @@
 
 Clone the project
 
+using GIT
+
 ```bash
-  https://github.com/MRXAZK/FMMC.git
+  git clone https://github.com/MRXAZK/FMMC.git
 ```
 
 or
